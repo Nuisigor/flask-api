@@ -13,5 +13,6 @@ class ApiKeyMiddleware:
             if provided_api_key != Environment.API_KEY:
                 return jsonify({"message": "API-KEY inválida"}), 403
             return f(*args, **kwargs)
+        wrapper.__name__ = f.__name__
         return wrapper
 

@@ -1,0 +1,150 @@
+swagger: "2.0"
+info:
+  title: "API de Produtos"
+  description: "Endpoints de produtos"
+  version: "1.0.0"
+host: "localhost:5000"
+basePath: "/produto"
+schemes:
+  - "http"
+securityDefinitions:
+  ApiKeyAuth:
+    type: "apiKey"
+    name: "API-KEY"
+    in: "header"
+paths:
+  /:
+    get:
+      summary: "Lista todos os produtos"
+      description: "Retorna uma lista com todos os produtos."
+      responses:
+        200:
+          description: "Lista de produtos retornada com sucesso"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Produto"
+        400:
+          description: "Erro na busca de produtos"
+    post:
+      summary: "Cria um novo produto"
+      description: "Adiciona um novo produto ao sistema."
+      parameters:
+        - in: body
+          name: body
+          description: "Dados do produto a ser criado"
+          required: true
+          schema:
+            $ref: "#/definitions/CreateProdutoDTO"
+      security:
+        - ApiKeyAuth: []
+      responses:
+        201:
+          description: "Produto criado com sucesso"
+          schema:
+            $ref: "#/definitions/Produto"
+        400:
+          description: "Erro ao criar produto"
+  /{id}:
+    get:
+      summary: "Recupera um produto pelo ID"
+      description: "Retorna os detalhes de um produto específico."
+      parameters:
+        - in: path
+          name: id
+          description: "ID do produto"
+          required: true
+          type: integer
+      responses:
+        200:
+          description: "Produto retornado com sucesso"
+          schema:
+            $ref: "#/definitions/Produto"
+        404:
+          description: "Produto não encontrado"
+    patch:
+      summary: "Atualiza um produto existente"
+      description: "Atualiza as informações de um produto pelo ID."
+      parameters:
+        - in: path
+          name: id
+          description: "ID do produto a ser atualizado"
+          required: true
+          type: integer
+        - in: body
+          name: body
+          description: "Novos dados do produto"
+          required: true
+          schema:
+            $ref: "#/definitions/UpdateProdutoDTO"
+      security:
+        - ApiKeyAuth: []
+      responses:
+        200:
+          description: "Produto atualizado com sucesso"
+          schema:
+            $ref: "#/definitions/Produto"
+        404:
+          description: "Produto não encontrado"
+        400:
+          description: "Erro ao atualizar produto"
+    delete:
+      summary: "Deleta um produto pelo ID"
+      description: "Remove um produto do sistema pelo ID."
+      parameters:
+        - in: path
+          name: id
+          description: "ID do produto a ser deletado"
+          required: true
+          type: integer
+      security:
+        - ApiKeyAuth: []
+      responses:
+        200:
+          description: "Produto deletado com sucesso"
+        404:
+          description: "Produto não encontrado"
+
+definitions:
+  Produto:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: "O identificador único do produto"
+      nome:
+        type: string
+        description: "O nome do produto"
+      valor:
+        type: number
+        description: "O valor do produto"
+      eletronico:
+        type: boolean
+        description: "Indica se o produto é eletrônico"
+  CreateProdutoDTO:
+    type: object
+    properties:
+      nome:
+        type: string
+        description: "O nome do produto"
+        required: true
+      valor:
+        type: number
+        description: "O valor do produto"
+        required: true
+      eletronico:
+        type: boolean
+        description: "Indica se o produto é eletrônico"
+        required: true
+  UpdateProdutoDTO:
+    type: object
+    properties:
+      nome:
+        type: string
+        description: "O nome do produto"
+      valor:
+        type: number
+        description: "O valor do produto"
+      eletronico:
+        type: boolean
+        description: "Indica se o produto é eletrônico"
