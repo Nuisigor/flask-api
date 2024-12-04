@@ -1,0 +1,33 @@
+name: Deploy Flask App on Self-Hosted Runner
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and Run Docker Container
+        env:
+          FLASK_ENV: production
+        run: |
+          echo "Parando contêiner existente (se houver)"
+          docker stop flask-app || true
+          docker rm flask-app || true
+
+          mv .env.example .env
+
+          echo "Construindo nova imagem Docker"
+          docker build -t flask-app .
+
+          echo "Executando contêiner"
+          docker run -d --name flask-app -p 80:80 flask-app
