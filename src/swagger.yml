@@ -3,7 +3,7 @@ info:
   title: "API de Produtos"
   description: "Endpoints de produtos"
   version: "1.0.0"
-host: "localhost:5000"
+host: "localhost"
 basePath: "/produto"
 schemes:
   - "http"
