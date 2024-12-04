@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   title: "API de Produtos"
   description: "Endpoints de produtos"
-  version: "1.0.0"
+  version: "1.0.1"
 host: "localhost"
 basePath: "/produto"
 schemes:
@@ -121,6 +121,18 @@ definitions:
       eletronico:
         type: boolean
         description: "Indica se o produto é eletrônico"
+      data_criacao:
+        type: date
+        description: "Data de criação do produto"
+      data_atualizacao:
+        type: date
+        description: "Data de atualização do produto"
+      deletado:
+        type: boolean
+        description: "Indica se o produto foi deletado"
+      data_delecao:
+        type: date
+        description: "Data de deleção do produto"
   CreateProdutoDTO:
     type: object
     properties:

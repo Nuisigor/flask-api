@@ -11,10 +11,13 @@ class ProdutoService:
         self.produto_repository = produto_repository
 
     def get_all(self):
-        return [ product.to_dict() for product in self.produto_repository.get_all()]
+        return [ product.to_dict() for product in self.produto_repository.get_all() if product.deletado == False]
 
     def get_by_id(self, id):
-        return self.produto_repository.get(id)
+        product = self.produto_repository.get(id)
+        if not product or product.deletado:
+            return None
+        return product
        
 
     def create(self, produto: CreateProdutoDTO):
@@ -22,7 +25,7 @@ class ProdutoService:
             nome=produto.nome,
             valor=produto.valor,
             eletronico=produto.eletronico,
-            data=datetime.now()
+            data_criacao=datetime.now()
         )
         return self.produto_repository.add(new_product)
 
@@ -34,13 +37,16 @@ class ProdutoService:
         product.nome = produto.nome if produto.nome is not None else product.nome
         product.valor = produto.valor if produto.valor is not None else product.valor
         product.eletronico = produto.eletronico if produto.eletronico is not None else product.eletronico
+        product.data_atualizacao = datetime.now()
         
         return self.produto_repository.update(product)
 
     def delete(self, id):
         product = self.produto_repository.get(id)
-        if not product:
+        if not product or product.deletado:
             return False
         
-        self.produto_repository.delete(id)
+        product.deletado = True
+        product.data_delecao = datetime.now()
+        self.produto_repository.update(product)
         return True

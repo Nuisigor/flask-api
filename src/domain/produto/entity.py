@@ -7,20 +7,29 @@ class ProdutoEntity(db.Model):
     id = db.Column(Integer, primary_key=True)
     nome = db.Column(String(50), nullable=False)
     valor = db.Column(Float, nullable=False)
-    data = db.Column(DateTime, nullable=False)
     eletronico = db.Column(Boolean, nullable=False)
+    data_criacao = db.Column(DateTime, nullable=False)
+    data_atualizacao = db.Column(DateTime, nullable=True)
+    deletado = db.Column(Boolean, nullable=False)
+    data_delecao = db.Column(DateTime, nullable=True)
+    
 
-    def __init__(self, nome: str, valor: float, data: datetime, eletronico: bool):
+    def __init__(self, nome: str, valor: float,  eletronico: bool, data_criacao: datetime):
         self.nome = nome
         self.valor = valor
-        self.data = data
         self.eletronico = eletronico
+        self.data_criacao = data_criacao
+        self.deletado = False
+
 
     def to_dict(self):
         return {
             "id": self.id,
             "nome": self.nome,
             "valor": self.valor,
-            "data": self.data.isoformat() if self.data else None,
-            "eletronico": self.eletronico
+            "eletronico": self.eletronico,
+            "data_criacao": self.data_criacao.isoformat() if self.data_criacao else None,
+            "data_atualizacao": self.data_atualizacao.isoformat() if self.data_atualizacao else None,
+            "deletado": self.deletado,
+            "data_delecao": self.data_delecao.isoformat() if self.data_delecao else None
         }

@@ -40,7 +40,7 @@ Este projeto é uma API para gerenciar produtos, desenvolvida com Flask e docume
 
 6. Acesse o projeto no navegador:
    ```
-   http://localhost:5000
+   http://localhost/
    ```
 
 ## 📖 Documentação da API
@@ -48,7 +48,7 @@ Este projeto é uma API para gerenciar produtos, desenvolvida com Flask e docume
 A documentação completa da API está disponível no Swagger UI, acessível em:
 
 ```
-http://localhost:5000/docs
+http://localhost/docs
 ```
 
 Lá você encontrará todas as rotas disponíveis, seus parâmetros e exemplos de respostas.

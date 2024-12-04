@@ -22,4 +22,5 @@ def client(app):
     api_key = Environment.API_KEY
     client = app.test_client()
     client.environ_base["HTTP_API_KEY"] = api_key
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
     return client
